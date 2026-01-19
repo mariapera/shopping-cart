@@ -1,7 +1,7 @@
-import { useCart } from "../context/cartContext"
+import { useCartContext } from "../context/useCartContext"
 
 function CartButtons({item, fromCart}) {
-  const {addToCart, updateQuantity, removeFromCart} = useCart()
+  const {addToCart, updateQuantity, removeFromCart} = useCartContext()
 
   return (
 		<div className='absolute top-5 right-5 w-max'>

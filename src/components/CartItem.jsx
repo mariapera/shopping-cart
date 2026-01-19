@@ -1,11 +1,11 @@
 import CartButtons from "./CartButtons"
 
 function CartItem({item, fromCart=false}) {
-    const {name, imageUrl: image, price} = item
+    const {name, imageUrl, price} = item
   return (
 		<div className='group relative grid place-items-center border border-zinc-200 rounded-md bg-white p-24'>
 			<img
-				src={image}
+				src={imageUrl}
 				alt='Product Image'
 				width={300}
 				height={300}

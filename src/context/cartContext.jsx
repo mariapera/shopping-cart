@@ -1,11 +1,14 @@
-import { createContext, useContext } from 'react'
-import { useState } from 'react'
+import { createContext , useState } from 'react'
 import { allProducts } from '../assets/data/products'
-import { setItemInStorage, getItemFromStorage, getParsedItemFromStorage } from '../utility/localStorageFns'
+import {
+	setItemInStorage,
+	getItemFromStorage,
+	getParsedItemFromStorage,
+} from '../utility/localStorageFns'
 
-const CartContext = createContext()
+const CartContext = createContext(null)
 
-export function CartProvider({ children }) {
+function CartProvider({ children }) {
 	const [allItems, setAllItems] = useState([])
 
 	const setItems = () => setAllItems(allProducts)
@@ -26,39 +29,43 @@ export function CartProvider({ children }) {
 	const updateQuantity = (item, amount) => {
 		setAllItems(prevItems => {
 			return prevItems.map(prevItem => {
-				return prevItem.id === item.id ? {...item, quantity: item.quantity + amount} : prevItem
+				return prevItem.id === item.id
+					? { ...item, quantity: item.quantity + amount }
+					: prevItem
 			})
 		})
 	}
 
-	const removeFromCart = (item) => {
+	const removeFromCart = item => {
 		setAllItems(prevItems => {
 			return prevItems.map(prevItem => {
-				return prevItem.id === item.id ? {
-					...item, quantity: 1, inCart: false} : prevItem
-				})
+				return prevItem.id === item.id
+					? { ...item, quantity: 1, inCart: false }
+					: prevItem
 			})
-		}
+		})
+	}
 
 	const setLocalStorage = () => {
-		if(allItems.length !== 0) {
+		if (allItems.length !== 0) {
 			const inCartItems = allItems.filter(item => item.inCart)
 			setItemInStorage('cartItems', inCartItems)
 		}
 	}
 
 	const setCartItemsFromLocalStorage = () => {
-		if(getItemFromStorage('cartItems') !== null) {
+		if (getItemFromStorage('cartItems') !== null) {
 			const storageItems = getParsedItemFromStorage('cartItems')
 			setAllItems(prevItems => {
 				return prevItems.map(prevItem => {
-					const machedItem = storageItems?.find(storageItem => storageItem.id === prevItem.id)
+					const machedItem = storageItems?.find(
+						storageItem => storageItem.id === prevItem.id
+					)
 					return machedItem ? machedItem : prevItem
 				})
 			})
 		}
 	}
-	
 
 	return (
 		<CartContext.Provider
@@ -76,6 +83,4 @@ export function CartProvider({ children }) {
 	)
 }
 
-export function useCart() {
-	return useContext(CartContext)
-}
+export { CartProvider, CartContext }

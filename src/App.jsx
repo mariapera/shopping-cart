@@ -1,14 +1,14 @@
 import { useEffect } from 'react'
 import CartItem from './components/CartItem'
-import { useCart } from './context/cartContext'
 import ShoppingCart from './components/ShoppingCart'
 import {
 	getItemFromStorage,
 	getParsedItemFromStorage,
 } from './utility/localStorageFns'
+import { useCartContext } from './context/useCartContext'
 
 function App() {
-	const { allItems, setItems, setCartItemsFromLocalStorage } = useCart()
+	const { allItems, setItems, setCartItemsFromLocalStorage } = useCartContext()
 
 	useEffect(() => {
 		setItems()

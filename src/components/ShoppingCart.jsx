@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react'
-import { useCart } from '../context/cartContext'
 import { ShoppingCartIcon, XIcon } from 'lucide-react'
 import CartItem from './CartItem'
 import { formatCurrency } from '../utility/formatCurrency'
+import { useCartContext } from '../context/useCartContext'
 
 function ShoppingCart() {
 	const [isOpen, setIsOpen] = useState(false)
 	const [cartItems, setCartItems] = useState([])
 	const [totalPrice, setTotalPrice] = useState(0)
 
-	const { allItems, setLocalStorage } = useCart()
+	const { allItems, setLocalStorage } = useCartContext()
 
 	useEffect(() => {
 		const inCartItems = allItems.filter(item => item.inCart)
@@ -38,10 +38,10 @@ function ShoppingCart() {
 		<>
 			{cartItems.length > 0 && (
 				<div
-					className={`w-[300px] h-screen fixed top-0 z-30 border-l-4 border-red-200 rounded-tl-lg bg-gray-200 transition-all duration-500 ${
+					className={`w-[300px] h-screen  fixed top-0 z-30 border-l-4 border-red-200 rounded-tl-lg bg-gray-200 transition-all duration-500 ${
 						isOpen ? 'right-0' : '-right-[300px]'
 					}`}>
-					<div className='w-full h-16 absolute top-0 left-0 z-10 grid place-items-center bg-white rounded-lg border border-gray-300'>
+					<div className='h-16 absolute top-0 left-0 right-4 z-10 grid place-items-center bg-white rounded-lg border border-gray-300'>
 						<h3 className='text-lg text-center text-gray-600'>Shopping Cart</h3>
 						<button
 							type='button'
@@ -68,7 +68,7 @@ function ShoppingCart() {
 							<CartItem key={item.id} item={item} fromCart={true} />
 						))}
 					</div>
-					<div className='w-full h-20 absolute left-0  bottom-0 z-10 grid place-items-center bg-white rounded-lg border border-gray-300'>
+					<div className='h-20 absolute left-0 right-4 bottom-0 z-10 grid place-items-center bg-white rounded-lg border border-gray-300'>
 						<h3 className='text-lg text-gray-500'>
 							Total: {formatCurrency(totalPrice)}
 						</h3>
